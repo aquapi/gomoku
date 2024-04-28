@@ -75,6 +75,7 @@ export default class Board {
             moveX < 0 ? (pos >>> 4) : moveX > 0 ? 15 - (pos >>> 4) : 5,
             5
         );
+
         let cnt = 0;
 
         while (maxIterations !== 0) {
