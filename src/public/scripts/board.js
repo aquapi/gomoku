@@ -43,6 +43,24 @@ export default class Board {
     }
 
     /**
+     * @param {number} turn
+     */
+    reset(turn) {
+        const { elements, sqTurn } = this;
+
+        for (let i = 0; i < 16; ++i) {
+            for (let j = 0; j < 16; ++j) {
+                const idx = (i << 4) | j;
+
+                elements[idx].innerHTML = '';
+                sqTurn[idx] = -1;
+            }
+        }
+
+        this.turn = turn;
+    }
+
+    /**
      * @param {number} pos
      * @param {number} move
      */

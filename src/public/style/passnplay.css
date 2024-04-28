@@ -1,0 +1,49 @@
+@import url('./board.css');
+
+@media screen and (max-width: 1000px) {
+    body {
+        justify-content: flex-start !important;
+    } 
+}
+
+body {
+    padding: 0;
+    margin: 0;
+
+    overflow: scroll;
+
+    min-width: 100vw;
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    & #board {
+        margin: 0 90px;
+    }
+}
+
+#counter {
+    display: flex;
+    font-size: 4rem;
+    
+    & p {
+        margin: 0;
+        color: white;
+    }
+}
+
+#red-counter, #blue-counter {
+    margin: 0 50px;
+    font-family: monospace;
+}
+
+#red-counter {
+    color: #F56565;
+}
+
+#blue-counter {
+    color: #4299e1; 
+}
