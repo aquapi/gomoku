@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: gomoku
+    env: docker
+    repo: https://github.com/aquapi/gomoku
+    plan: starter
+    autoDeploy: true
