@@ -1,3 +1,8 @@
+:root {
+    --color-red: #F56565;
+    --color-blue: #4299e1;
+}
+
 body { 
     background: #1C2936;
 
@@ -24,14 +29,6 @@ body {
             justify-content: center;
             align-items: center;
 
-            & .red {
-                background: #F56565;
-            }
-
-            & .blue {
-                background: #4299e1;
-            }
-
             & .circle {
                 width: var(--circle-size);
                 height: var(--circle-size);
@@ -44,4 +41,21 @@ body {
 
 body::-webkit-scrollbar {
     display: none;
+}
+
+/* Color utils */
+.red {
+    color: var(--color-red);
+}
+
+.blue {
+    color: var(--color-blue);
+}
+
+.bg-red {
+    background: var(--color-red);
+}
+
+.bg-blue {
+    background: var(--color-blue);
 }

@@ -67,10 +67,14 @@ export default class Board {
     count(pos, move) {
         const { sqTurn, turn } = this;
 
-        const x = pos >>> 4;
-        const y = pos & 15;
+        const moveX = move >> 4;
+        const moveY = move - (moveX << 4);
 
-        let maxIterations = Math.min(x, y, 16 - x, 16 - y, 5);
+        let maxIterations = Math.min(
+            moveY < 0 ? (pos & 15) : moveY > 0 ? 15 - (pos & 15) : 5,
+            moveX < 0 ? (pos >>> 4) : moveX > 0 ? 15 - (pos >>> 4) : 5,
+            5
+        );
         let cnt = 0;
 
         while (maxIterations !== 0) {

@@ -28,22 +28,24 @@ body {
 #counter {
     display: flex;
     font-size: 4rem;
+
+    padding: 20px 0;
     
     & p {
         margin: 0;
         color: white;
     }
+
+    & * {
+        margin: 0 50px;
+        font-family: monospace;
+    }
 }
 
-#red-counter, #blue-counter {
-    margin: 0 50px;
-    font-family: monospace;
+.border-red {
+    border-bottom: 6px solid var(--color-red);
 }
 
-#red-counter {
-    color: #F56565;
-}
-
-#blue-counter {
-    color: #4299e1; 
+.border-blue {
+    border-bottom: 6px solid var(--color-blue);
 }
