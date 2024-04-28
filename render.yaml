@@ -3,5 +3,5 @@ services:
     name: gomoku
     env: docker
     repo: https://github.com/aquapi/gomoku
-    plan: starter
+    plan: free
     autoDeploy: true
