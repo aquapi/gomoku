@@ -3,10 +3,14 @@
     --color-blue: #4299e1;
 }
 
-body { 
+.game {
     background: #1C2936;
 
-    #board {
+    & > * {
+        margin-left: 100px;
+    }
+
+    & .board {
         --sq-size: max(2vw, 32px);
         --sq-gap: 3px;
         --circle-size: calc(var(--sq-size) / 5 * 3);
@@ -21,6 +25,8 @@ body {
         align-items: center;
 
         & .sq {
+            cursor: pointer;
+
             background: #0C141D;
             width: var(--sq-size);
             height: var(--sq-size);
@@ -37,10 +43,27 @@ body {
             }
         }
     }
-}
 
-body::-webkit-scrollbar {
-    display: none;
+    & .status {
+        display: flex;
+        flex-direction: column;
+
+        & .counter {
+            display: flex;
+            font-size: 4rem;
+            padding: 20px 0;
+
+            & p {
+                margin: 0;
+                color: white;
+            }
+
+            & div {
+                margin: 0 50px;
+                font-family: monospace;
+            }
+        }
+    }
 }
 
 /* Color utils */
@@ -58,4 +81,12 @@ body::-webkit-scrollbar {
 
 .bg-blue {
     background: var(--color-blue);
+}
+
+.border-red {
+    border-bottom: 6px solid var(--color-red);
+}
+
+.border-blue {
+    border-bottom: 6px solid var(--color-blue);
 }

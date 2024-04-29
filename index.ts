@@ -1,12 +1,8 @@
 import { Byte, send } from '@bit-js/byte';
 import { ws } from '@bit-js/bun-utils';
+import client from './src/client';
 
-import serveStatic from './src/static';
-import serveView from './src/view';
-
-const app = Byte
-    .route('/static', serveStatic)
-    .route('/', serveView);
+const app = Byte.route('/', client);
 
 ws.serve({
     server: {

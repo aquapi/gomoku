@@ -1,4 +1,5 @@
 import { Byte, send } from '@bit-js/byte';
+import './build';
 
 const dir = `${import.meta.dir}/public/`;
 

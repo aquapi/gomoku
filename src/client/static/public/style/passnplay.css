@@ -1,0 +1,26 @@
+@import url('./board.css');
+
+@media screen and (max-width: 1000px) {
+    body {
+        justify-content: flex-start !important;
+    } 
+}
+
+body {
+    padding: 0;
+    margin: 0;
+
+    overflow: scroll;
+
+    min-width: 100vw;
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
