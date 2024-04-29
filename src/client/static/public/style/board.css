@@ -11,8 +11,8 @@
     }
 
     & .board {
-        --sq-size: max(2vw, 32px);
-        --sq-gap: 3px;
+        --sq-size: max(2vw, 35px);
+        --sq-gap: 2px;
         --circle-size: calc(var(--sq-size) / 5 * 3);
 
         border: calc(var(--sq-size) / 5 * 3) solid #101c29;

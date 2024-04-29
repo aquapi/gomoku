@@ -71,32 +71,30 @@ export default class Board {
     private count(pos: number, move: number) {
         const { sqTurn, turn } = this;
 
-        const moveX = move >> 4;
-        const moveY = move - (moveX << 4);
+        // Cannot do bit shifting for negative numbers
+        const moveX = move / 16;
+        const moveY = move - (moveX * 16);
 
-        let limit = Math.min(
+        const limit = Math.min(
             moveY < 0 ? pos & 15 : moveY > 0 ? 15 - (pos & 15) : 5,
             moveX < 0 ? pos >>> 4 : moveX > 0 ? 15 - (pos >>> 4) : 5,
             5
         );
 
-        let cnt = 0;
-        while (limit !== 0) {
+        for (let cnt = 0; cnt < limit; ++cnt)
             if (sqTurn[pos += move] !== turn)
                 return cnt;
 
-            ++cnt;
-            --limit;
-        }
-
-        return cnt;
+        return limit;
     }
 
     // Check if current turn is winning
     private check(pos: number) {
         for (let i = 0, { length } = directions; i < length; ++i)
             if (this.count(pos, directions[i]) + this.count(pos, -directions[i]) > 3)
-                return true; return false;
+                return true;
+
+        return false;
     }
 
     // Play the move and change the turn
@@ -108,8 +106,8 @@ export default class Board {
         this.elements[pos].appendChild(circles[turn].cloneNode());
 
         const hasWon = this.check(pos);
-
         this.changeTurn(1 - turn);
+
         return hasWon;
     }
 
