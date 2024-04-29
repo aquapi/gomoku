@@ -6,12 +6,16 @@ function play(this: HTMLElement) {
     if (this.innerHTML.length !== 0) return;
 
     const { turn } = board;
+
     if (board.set(+this.id)) {
         // @ts-ignore
         ++board.counters.item(turn).innerText;
         board.reset(1 - turn);
 
         alert(`${color[turn]} wins! ${color[1 - turn]} goes first!`);
+    } else if (board.full()) {
+        board.reset(1 - turn);
+        alert(`It's a draw! ${color[1 - turn]} goes first!`);
     }
 };
 
