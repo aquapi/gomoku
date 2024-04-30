@@ -4,9 +4,6 @@ export default class ClientBoard extends Board {
     // Store board squares 
     elements: HTMLElement[];
 
-    // Store the status element
-    status: HTMLElement;
-
     // Store the counter element
     counter: HTMLElement;
 
@@ -17,7 +14,7 @@ export default class ClientBoard extends Board {
         super();
 
         const board = game.querySelector('.board')!;
-        const stat = this.status = game.querySelector('.status')!;
+        const stat = game.querySelector('.status')!;
 
         // Init board
         const elements = this.elements = new Array(256);
