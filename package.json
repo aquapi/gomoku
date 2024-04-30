@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@bit-js/bun-utils": "^1.0.0",
-    "@bit-js/byte": "^1.2.1",
+    "@bit-js/byte": "^1.2.2",
     "@bit-js/vld": "^1.1.1"
   },
   "scripts": {

@@ -1,26 +1,30 @@
 import Board from './board';
 
 const color = ['Red', 'Blue'];
-
 function play(this: HTMLElement) {
     if (this.innerHTML.length !== 0) return;
 
     const { turn } = board;
+    const nextTurn = 1 - turn;
 
-    if (board.set(+this.id)) {
-        // @ts-ignore
-        ++board.counters.item(turn).innerText;
-        board.reset(1 - turn);
-
-        alert(`${color[turn]} wins! ${color[1 - turn]} goes first!`);
-    } else if (board.full()) {
-        board.reset(1 - turn);
-        alert(`It's a draw! ${color[1 - turn]} goes first!`);
+    // @ts-ignore
+    switch (board.set(+this.dataset.id)) {
+        case 0: return;
+        case 1:
+            // @ts-ignore
+            ++board.counters.item(turn).innerText;
+            alert(`${color[turn]} wins! ${color[nextTurn]} goes first!`);
+            break;
+        case 2:
+            alert(`It's a draw! ${color[nextTurn]} goes first!`);
+            break;
     }
+
+    board.clear();
 };
 
 // Prepare board listeners
-const board = new Board(document.body, 0);
+const board = new Board(document.body);
 const { elements } = board;
 
 for (let i = 0; i < 256; ++i)
