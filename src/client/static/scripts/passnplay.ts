@@ -1,4 +1,4 @@
-import Board from './board';
+import ClientBoard from './board';
 
 const color = ['Red', 'Blue'];
 function play(this: HTMLElement) {
@@ -24,7 +24,7 @@ function play(this: HTMLElement) {
 };
 
 // Prepare board listeners
-const board = new Board(document.body);
+const board = new ClientBoard(document.body);
 const { elements } = board;
 
 for (let i = 0; i < 256; ++i)

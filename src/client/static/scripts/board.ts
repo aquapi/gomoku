@@ -13,10 +13,9 @@ export default class ClientBoard extends Board {
     constructor(game: HTMLElement) {
         super();
 
-        const board = game.querySelector('.board')!;
-        const stat = game.querySelector('.status')!;
-
         // Init board
+        const board = game.querySelector('.board')!;
+
         const elements = this.elements = new Array(256);
         for (let i = 0; i < 256; ++i) {
             const el = document.createElement('div');
@@ -28,6 +27,8 @@ export default class ClientBoard extends Board {
         }
 
         // Init status
+        const stat = game.querySelector('.status')!;
+
         const counter = this.counter = stat.querySelector('.counter')!;
         counter.classList.add(borders[0]);
         this.counters = counter.querySelectorAll('div');
