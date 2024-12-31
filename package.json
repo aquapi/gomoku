@@ -3,9 +3,13 @@
   "type": "module",
   "module": "src/index.js",
   "dependencies": {
-    "@mapl/app": "^0.1.10"
+    "@mapl/app": "^0.4.1",
+    "ws-routers": "^0.2.1"
   },
   "devDependencies": {
-    "tsx": "^4.19.2"
+    "@types/bun": "^1.1.14"
+  },
+  "scripts": {
+    "dev": "bun index.ts"
   }
 }
