@@ -2,13 +2,14 @@
   "type": "module",
   "dependencies": {
     "@mapl/app": "^0.4.2",
-    "ws-routers": "^0.2.2"
+    "ws-routers": "^0.2.3"
   },
   "devDependencies": {
     "@types/bun": "^1.1.14"
   },
   "scripts": {
+    "build:prod": "bun i --production",
     "dev": "bun index.ts",
-    "start": "bun index.ts"
+    "start": "bun index.ts --smol"
   }
 }
