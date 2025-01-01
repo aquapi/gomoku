@@ -44,7 +44,7 @@ socket.addEventListener("message", (e) => {
       dialog.textContent =
         turn === 2
           ? "Spectating..."
-          : "Playing as " + (turn === 0 ? "red" : "blue");
+          : (turn === 0 ? "Your" : "Opponent") + " turn";
 
       // Clear board
       for (let i = 0; i < 256; i++) board[i].innerHTML = "";
@@ -53,6 +53,7 @@ socket.addEventListener("message", (e) => {
     // [1, pos, turn]
     case 1:
       board[msg[1]].appendChild(pieces[msg[2]].cloneNode());
+      dialog.textContent = (msg[2] === turn ? "Opponent" : "Your") + " turn!";
       break;
 
     // [2, 0 | 1 | 2]

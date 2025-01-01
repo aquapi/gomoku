@@ -4,4 +4,8 @@ import { autoServe } from 'ws-routers/bun';
 import app from './src/index.ts';
 
 const options = await jitc(app);
-export const server = autoServe(options);
+export const server = autoServe({
+  ...options,
+  // @ts-ignore Will fix later
+  port: +(process.env.PORT ?? 3000)
+});
