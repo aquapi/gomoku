@@ -5,7 +5,8 @@
     "ws-routers": "^0.2.3"
   },
   "devDependencies": {
-    "@types/bun": "^1.1.14"
+    "@types/bun": "^1.1.14",
+    "@radix-ui/colors": "^3.0.0"
   },
   "scripts": {
     "build:prod": "bun i --production --frozen-lockfile",

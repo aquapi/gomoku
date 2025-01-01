@@ -20,7 +20,7 @@ let boardSquareClick = function () {
 let board = Array.from({ length: 256 }, (_, i) => {
   let el = document.createElement("span");
 
-  el.className = "ui";
+  el.className = "ui-effect";
   el.dataset.id = i;
   el.addEventListener("click", boardSquareClick);
 
