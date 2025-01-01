@@ -1,6 +1,6 @@
 import { autoRoute, type ServerWebSocket } from 'ws-routers/bun';
 import { server } from '@server';
-import { createBoard, boards, type Board, mark } from '@/utils/game';
+import { createBoard, boards, type Board, startBoard, resetBoard, invalidTurn, invalidMove, detectWin } from '@/utils/game';
 import { createMove, draw, startAsO, startAsSpectator, startAsX, winMessages } from '@/utils/message';
 
 type Data = [
@@ -16,22 +16,36 @@ type Data = [
 
 export default autoRoute<Data>({
   open: (ws) => {
-    ws.binaryType = 'uint8array';
+    // Stop the connection immediately
+    // When the server is full
+    if (boards.size > 5e3) {
+      ws.close(1013);
+      return;
+    }
 
+    // Prevent conflict with spectator rooms
     let topic = ws.data[0];
+    if (topic.charCodeAt(0) === 36) {
+      ws.close(1011);
+      return;
+    }
+
+    ws.subscribe(topic);
     ws.data[3] = '$' + topic;
+
+    ws.binaryType = 'uint8array';
 
     switch (server.subscriberCount(topic)) {
       // Initialize the board
-      case 0:
+      case 1:
         ws.data[1] = 0;
         ws.data[2] = createBoard(topic);
         break;
 
-      // Start sending message to the players
-      case 1: {
+      // Start sending messages to the players
+      case 2: {
         ws.data[1] = 1;
-        ws.data[2] = boards.get(topic)!;
+        ws.data[2] = startBoard(boards.get(topic)!);
 
         ws.publishBinary(topic, startAsX);
         ws.sendBinary(startAsO);
@@ -47,8 +61,6 @@ export default autoRoute<Data>({
         ws.subscribe(ws.data[3]);
         return;
     }
-
-    ws.subscribe(topic);
   },
 
   close: (ws) => {
@@ -72,13 +84,18 @@ export default autoRoute<Data>({
       // One player just left
       case 1:
         {
-          let msg = winMessages[1 - ws.data[1]];
-          // Send wins to the other player
-          server.publish(topic, msg);
-          // Send wins to spectators
-          server.publish(ws.data[3], msg);
-          // Leave the room
-          ws.close();
+          let board = ws.data[2]!;
+
+          // Still in game
+          if (board[2]) {
+            let msg = winMessages[1 - ws.data[1]];
+            // Send wins to the other player
+            server.publish(topic, msg);
+            // Send wins to spectators
+            server.publish(ws.data[3], msg);
+            // Mark game as done
+            resetBoard(board);
+          }
         }
         break;
     }
@@ -102,8 +119,13 @@ export default autoRoute<Data>({
 
         {
           let board = ws.data[2]!;
-          // The game has already finished
-          if (board[3]) return;
+          // The game is not started
+          // Or player try to move but not their turn
+          if (invalidTurn(board, playerTurn)) return;
+
+          let bpos = BigInt(msg[1]);
+          // This position already has been registered
+          if (invalidMove(board, bpos)) return;
 
           {
             let move = createMove(msg[1], playerTurn);
@@ -114,27 +136,27 @@ export default autoRoute<Data>({
           }
 
           // Check if current player wins (get x and y first)
-          if (mark(board[playerTurn], msg[1] >>> 4, msg[1] & 15)) {
-            board[3] = true;
-
+          if (detectWin(board, playerTurn, bpos)) {
             // Send win to all players
             server.publish(ws.data[0], winMessages[playerTurn]);
             // Send win to other spectators
             ws.publishBinary(ws.data[3], winMessages[playerTurn]);
+            // Game done
+            resetBoard(board);
           }
 
           // After this turn the board is full
           else if (board[2] === 255) {
-            board[3] = true;
-
             // Send draw to every player
             server.publish(ws.data[0], draw);
             // Send draw to every spectator
             ws.publishBinary(ws.data[3], draw);
+            // Game done
+            resetBoard(board);
           }
 
           // Count the moves
-          board[2]++;
+          else board[2]++;
         }
 
         break;

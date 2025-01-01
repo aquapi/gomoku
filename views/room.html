@@ -6,15 +6,62 @@
     <meta name="description" content="A simple board game" />
     <meta name="viewport" content="width=device-width" />
     <style>
-      span[data-id] {
+      :root {
+        --sq-size: 40px;
+        --piece-size: calc(var(--sq-size) * 3 / 5);
+
+        --bg: #62636c;
+        --sq-bg: white;
+      }
+
+      body {
+        width: 100vw;
+        height: 100vh;
+
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      main {
+        width: fit-content;
+
+        display: grid;
+        grid-template-columns: repeat(16, var(--sq-size));
+
+        gap: 1px;
+        padding: 1px;
+
+        background-color: var(--bg);
+      }
+
+      span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: var(--sq-size);
+        height: var(--sq-size);
+
+        background-color: var(--sq-bg);
       }
 
       /* First player */
       .piece-0 {
+        width: var(--piece-size);
+        height: var(--piece-size);
+
+        border-radius: 9999px;
+        background-color: #f56565;
       }
 
       /* Second player */
       .piece-1 {
+        width: var(--piece-size);
+        height: var(--piece-size);
+
+        border-radius: 9999px;
+        background-color: #4299e1;
       }
     </style>
   </head>

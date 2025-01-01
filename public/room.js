@@ -1,6 +1,6 @@
 let pieces = [document.createElement("div"), document.createElement("div")];
-pieces[0].dataset.class = "piece-0";
-pieces[1].dataset.class = "piece-1";
+pieces[0].className = "piece-0";
+pieces[1].className = "piece-1";
 
 let socket = new WebSocket("/ws/room" + location.search),
   /** @type {0 | 1 | 2 | undefined} */
@@ -15,7 +15,7 @@ let main = document.querySelector("main");
 let boardSquareClick = function () {
   socket.send(new Uint8Array([0, +this.dataset.id]));
 };
-let board = Array.from({ length: 256 }, (i) => {
+let board = Array.from({ length: 256 }, (_, i) => {
   let el = document.createElement("span");
   el.dataset.id = i;
   el.addEventListener("click", boardSquareClick);
@@ -42,6 +42,19 @@ socket.addEventListener("message", (e) => {
     // [1, pos, turn]
     case 1:
       board[msg[1]].appendChild(pieces[msg[2]].cloneNode());
+      break;
+
+    // [2, 0 | 1 | 2]
+    case 2:
+      // TODO
+      if (msg[1] === 2) alert("Game drawn!");
+      else if (msg[1] === turn) alert("You win!");
+      else {
+        alert("You lose!");
+        alert(msg[1] + " " + turn);
+      }
+
+      location.href = "/";
       break;
   }
 });

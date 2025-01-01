@@ -1,68 +1,13 @@
-/**
- * Check whether a row has 5 consecutive pieces
- * @params sets - The row bitset list
- * @params rowPos - The row bitset index
- * @param posIndex - The position in the row bitset to start checking from
- */
-export const finished = (sets: Uint16Array, rowPos: number, posIndex: number): boolean => {
-  // Play the move
-  let rowSet = sets[rowPos] |= 1 << posIndex;
-
-  // Keep 9 digits around the position to check
-  rowSet = (rowSet >>> Math.max(posIndex - 4, 0)) & 511;
-
-  while (rowSet > 31) {
-    // Whether 5 consecutive bits are set
-    if (rowSet >>> 31 === 31)
-      return true;
-
-    // Push 1 bit out
-    rowSet >>>= 1;
-  }
-
-  return false;
-}
-
-const l16 = { length: 16 } as const, l31 = { length: 31 } as const;
-
-export type Sets = [
-  row: Uint16Array,
-  col: Uint16Array,
-  firstDiag: Uint16Array,
-  secondDiag: Uint16Array
-];
-
-/**
- * Create bitsets for a piece
- */
-export const createSets = (): Sets => [
-  new Uint16Array(l16), new Uint16Array(l16),
-  // Diagonals take more spaces
-  new Uint16Array(l31), new Uint16Array(l31),
-];
-
-/**
- * Register the move on every sets and check if the current player wins
- * @param sets
- * @param x
- * @param y
- * @returns
-*/
-export const mark = (sets: Sets, x: number, y: number): boolean =>
-  // Row
-  finished(sets[0], y, x) ||
-  // Col
-  finished(sets[1], x, y) ||
-  // First diag
-  finished(sets[2], x - y + 15, Math.max(x, y)) ||
-  // Second diag
-  finished(sets[3], x + y, Math.min(x, 15 - y));
-
 export type Board = [
-  xSets: Sets,
-  ySets: Sets,
-  count: number,
-  finished: boolean
+  // bitset size 256
+  xSet: bigint | null,
+  // bitset size 256
+  oSet: bigint | null,
+  // < 0 means not in game
+  // other than that is the move counter
+  inGame: number,
+  // Invert turn when necessary
+  startTurn: number,
 ];
 
 export const boards = new Map<string, Board>();
@@ -71,20 +16,50 @@ export const boards = new Map<string, Board>();
  * Create data for a room
  */
 export const createBoard = (name: string) => {
-  let board: Board = [createSets(), createSets(), 0, false];
+  let board: Board = [null, null, -1, 0];
   boards.set(name, board);
   return board;
 };
 
-export const clearBoard = (board: Board) => {
-  board[0] = createSets();
-  board[1] = createSets();
-  board[2] = 0;
-  board[3] = false;
+// Reset the board
+export const resetBoard = (board: Board) => {
+  board[0] = board[1] = null;
+  board[2] = -1;
+
+  // Swap the turn
+  board[3] = 1 - board[3];
 }
 
-/**
-  x ->
- y
- |
-*/
+// In game
+export const startBoard = (board: Board) => {
+  // Initialize enough spaces
+  board[0] = board[1] = 0n;
+  board[2] = 0;
+  return board;
+}
+
+// Validate player turn
+export const invalidTurn = (board: Board, playerTurn: number): boolean =>
+  board[2] < 0 || playerTurn !== ((board[2] + board[3]) & 1);
+
+// Validate move
+export const invalidMove = (board: Board, pos: bigint) =>
+  (((board[0]! | board[1]!) >> pos) & 1n) === 1n;
+
+// Check win
+export const detectWinDirection = (set: bigint, direction: bigint): boolean => {
+  let mask = set & (set >> direction); // Check two consecutive bits
+  mask &= mask >> direction; // Check three in a row
+  mask &= mask >> direction; // Check four in a row
+  mask &= mask >> direction; // Check five in a row
+  return mask !== 0n; // Found five in a row
+}
+
+export const detectWin = (board: Board, playerTurn: 0 | 1, pos: bigint): boolean => {
+  let set = board[playerTurn]! |= 1n << pos;
+
+  return detectWinDirection(set, 1n) || // X
+    detectWinDirection(set, 16n) || // Y
+    detectWinDirection(set, 17n) || // First diag
+    detectWinDirection(set, 15n); // Second diag
+}

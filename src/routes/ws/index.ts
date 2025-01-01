@@ -5,10 +5,9 @@ export default router()
   .get('/room', {
     type: 'response',
     fn: (c) => {
-      const roomId = new URLSearchParams(c.req.url).get('id');
-      console.log(roomId);
+      const roomId = new URL(c.req.url).searchParams.get('id');
       if (roomId !== null && handleRoom(c.req, [roomId, 0, null, '']))
-        return null as unknown as Response;
+        return;
 
       return new Response();
     }

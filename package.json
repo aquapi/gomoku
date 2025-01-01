@@ -1,10 +1,8 @@
 {
-  "name": "edge-bypass",
   "type": "module",
-  "module": "src/index.js",
   "dependencies": {
-    "@mapl/app": "^0.4.1",
-    "ws-routers": "^0.2.1"
+    "@mapl/app": "^0.4.2",
+    "ws-routers": "^0.2.2"
   },
   "devDependencies": {
     "@types/bun": "^1.1.14"
