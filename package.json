@@ -10,6 +10,6 @@
   "scripts": {
     "build:prod": "bun i --production",
     "dev": "bun index.ts",
-    "start": "bun index.ts --smol"
+    "start": "NODE_ENV=production bun index.ts --smol"
   }
 }

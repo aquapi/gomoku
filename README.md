@@ -1,13 +1,13 @@
-# Mapl Edge bypass template
-
-Make `@mapl/app` works on environments that block `new Function()` or `eval()`.
-
-To build the app, execute the `./src/build/index.js` file.
+# Gomoku
+A Gomoku multiplayer server in TypeScript.
 
 ```bash
-# Node
-npx tsx src/build/index.js
+// Start the dev server
+bun dev
 
-# Bun
-bun src/build/index.js
+// Start the prod server
+bun start
+
+// Install prod dependency
+bun build:prod
 ```
