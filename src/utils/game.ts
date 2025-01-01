@@ -49,8 +49,8 @@ export const invalidMove = (board: Board, pos: bigint) =>
   (((board[0]! | board[1]!) >> pos) & 1n) === 1n;
 
 // Check win
-export const detectWinDirection = (set: bigint, direction: bigint): boolean => {
-  let mask = set & (set >> direction); // Check two consecutive bits
+export const detectWinDirection = (mask: bigint, direction: bigint): boolean => {
+  mask &= mask >> direction; // Check two consecutive bits
   mask &= mask >> direction; // Check three in a row
   mask &= mask >> direction; // Check four in a row
   mask &= mask >> direction; // Check five in a row
