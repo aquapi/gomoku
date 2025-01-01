@@ -1,0 +1,70 @@
+:root {
+  /* Theme variable */
+  --theme-app-bg: #111110;
+
+  --theme-subtle-bg: #191918;
+  --theme-subtle-sep: #3b3a37;
+
+  --theme-ui-bg: #222221;
+  --theme-hovered-ui-bg: #2a2a28;
+  --theme-active-ui-bg: #31312e;
+  --theme-ui-sep: #494844;
+  --theme-hovered-ui-sep: #62605b;
+
+  --theme-solid-bg: #6f6d66;
+  --theme-hovered-solid-bg: #7c7b74;
+
+  --theme-txt-low: #b5b3ad;
+  --theme-txt-high: #eeeeec;
+}
+
+* {
+  font-family: "Courier New", Courier, monospace;
+  color: var(--theme-txt-low);
+}
+
+.ui {
+  border: var(--theme-ui-sep);
+  background-color: var(--theme-ui-bg);
+
+  &:hover {
+    border: var(--theme-hovered-ui-sep);
+    background-color: var(--theme-hovered-ui-bg);
+  }
+
+  &:active {
+    background-color: var(--theme-active-ui-bg);
+  }
+}
+
+.solid {
+  background-color: var(--theme-solid-bg);
+
+  &:hover {
+    background-color: var(--theme-hovered-solid-bg);
+  }
+}
+
+body {
+  background-color: var(--theme-app-bg);
+
+  width: 100vw;
+  height: 100vh;
+
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--theme-txt-high);
+}

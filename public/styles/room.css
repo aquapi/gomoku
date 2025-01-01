@@ -1,0 +1,47 @@
+@import "./globals.css";
+
+:root {
+  --sq-size: 40px;
+  --piece-size: calc(var(--sq-size) * 3 / 5);
+
+  --x-color: #f56565;
+  --o-color: #4299e1;
+}
+
+main {
+  margin-top: 20px;
+  width: fit-content;
+
+  display: grid;
+  grid-template-columns: repeat(16, var(--sq-size));
+
+  gap: 1px;
+  padding: 1px;
+}
+
+span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: var(--sq-size);
+  height: var(--sq-size);
+}
+
+/* First player */
+.piece-0 {
+  width: var(--piece-size);
+  height: var(--piece-size);
+
+  border-radius: 9999px;
+  background-color: var(--x-color);
+}
+
+/* Second player */
+.piece-1 {
+  width: var(--piece-size);
+  height: var(--piece-size);
+
+  border-radius: 9999px;
+  background-color: var(--o-color);
+}

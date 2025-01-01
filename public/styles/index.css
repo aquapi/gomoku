@@ -1,0 +1,14 @@
+@import "./globals.css";
+
+form {
+  font-size: 15px;
+
+  & > * {
+    border-radius: 6px;
+    padding: 10px 15px;
+  }
+
+  input {
+    outline: none;
+  }
+}

@@ -8,6 +8,8 @@ let socket = new WebSocket("/ws/room" + location.search),
 
 /** @type {HTMLElement} */
 let main = document.querySelector("main");
+/** @type {HTMLHeadingElement} */
+let dialog = document.getElementById("dialog");
 
 /**
  * @type {(this: HTMLSpanElement, ev: MouseEvent) => any}
@@ -17,6 +19,8 @@ let boardSquareClick = function () {
 };
 let board = Array.from({ length: 256 }, (_, i) => {
   let el = document.createElement("span");
+
+  el.className = "ui";
   el.dataset.id = i;
   el.addEventListener("click", boardSquareClick);
 
@@ -37,6 +41,13 @@ socket.addEventListener("message", (e) => {
     // [0, turn]
     case 0:
       turn = msg[1];
+      dialog.textContent =
+        turn === 2
+          ? "Spectating..."
+          : "Playing as " + (turn === 0 ? "red" : "blue");
+
+      // Clear board
+      for (let i = 0; i < 256; i++) board[i].innerHTML = "";
       break;
 
     // [1, pos, turn]
@@ -46,15 +57,13 @@ socket.addEventListener("message", (e) => {
 
     // [2, 0 | 1 | 2]
     case 2:
-      // TODO
-      if (msg[1] === 2) alert("Game drawn!");
-      else if (msg[1] === turn) alert("You win!");
-      else {
-        alert("You lose!");
-        alert(msg[1] + " " + turn);
-      }
+      dialog.textContent =
+        msg[1] === 2
+          ? "Game drawn!"
+          : msg[1] === turn
+            ? "You win!"
+            : "You lose!";
 
-      location.href = "/";
       break;
   }
 });

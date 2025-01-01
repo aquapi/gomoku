@@ -1,6 +1,6 @@
 import { autoRoute, type ServerWebSocket } from 'ws-routers/bun';
 import { server } from '@server';
-import { createBoard, boards, type Board, startBoard, resetBoard, invalidTurn, invalidMove, detectWin } from '@/utils/game';
+import { createBoard, boards, type Board, startBoard, resetBoard, invalidTurn, invalidMove, detectWin, inGame } from '@/utils/game';
 import { createMove, draw, startAsO, startAsSpectator, startAsX, winMessages } from '@/utils/message';
 
 type Data = [
@@ -87,7 +87,7 @@ export default autoRoute<Data>({
           let board = ws.data[2]!;
 
           // Still in game
-          if (board[2]) {
+          if (inGame(board)) {
             let msg = winMessages[1 - ws.data[1]];
             // Send wins to the other player
             server.publish(topic, msg);
