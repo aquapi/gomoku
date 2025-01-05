@@ -1,21 +1,11 @@
-/** @type {HTMLLinkElement} */
-let themeEl = document.getElementById("theme");
-
-try {
+const setTheme = async (theme) => {
   document.adoptedStyleSheets = [
     ...document.adoptedStyleSheets,
     (
-      await import(
-        "/themes/" + (localStorage.getItem("theme") || "default") + ".css",
-        { with: { type: "css" } }
-      )
+      await import(`/themes/${theme || "default"}.css`, {
+        with: { type: "css" },
+      })
     ).default,
   ];
-} catch {
-  console.log("Failed to load the selected theme, using the default theme");
-
-  document.adoptedStyleSheets = [
-    ...document.adoptedStyleSheets,
-    (await import("/themes/default.css", { with: { type: "css" } })).default,
-  ];
-}
+};
+setTheme(localStorage.getItem("theme")).catch(setTheme);
