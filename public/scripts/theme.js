@@ -1,11 +1,12 @@
+const sheets = new CSSStyleSheet();
+
 const setTheme = async (theme) => {
-  document.adoptedStyleSheets = [
-    ...document.adoptedStyleSheets,
-    (
-      await import(`/themes/${theme || "default"}.css`, {
-        with: { type: "css" },
-      })
-    ).default,
-  ];
+  sheets.replaceSync(
+    await (await fetch(`/themes/${theme || "default"}.css`)).text(),
+  );
 };
-setTheme(localStorage.getItem("theme")).catch(setTheme);
+setTheme(localStorage.getItem("theme"))
+  .catch(setTheme)
+  .then(() => {
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheets];
+  });
