@@ -1,7 +1,7 @@
 {
   "type": "module",
   "dependencies": {
-    "@mapl/app": "^0.4.2",
+    "@mapl/app": "^0.5.1",
     "ws-routers": "^0.2.3",
     "@radix-ui/colors": "^3.0.0"
   },

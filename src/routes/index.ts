@@ -6,7 +6,7 @@ import themes from './themes.ts';
 
 export default router()
   // Serve static
-  .get('/**', (c) => Bun.file('./public/' + c.params[0]))
+  .get('/**', (params) => Bun.file('./public/' + params[0]))
 
   // Other stuff
   .route('/themes', themes)

@@ -27,5 +27,5 @@ for (const name in radixThemes) {
 
 export default router()
   // Serve static
-  .get('/**', (c) => Bun.file('./themes/' + c.params[0]))
+  .get('/**', (params) => Bun.file('./themes/' + params[0]))
   .build('/', () => themeList.join())

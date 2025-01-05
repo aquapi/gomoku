@@ -9,7 +9,7 @@ let socket = new WebSocket("/ws/room" + location.search),
 /** @type {HTMLElement} */
 let main = document.querySelector("main");
 /** @type {HTMLHeadingElement} */
-let dialog = document.getElementById("dialog");
+let dialog = document.getElementById("instant-dialog");
 
 /**
  * @type {(this: HTMLSpanElement, ev: MouseEvent) => any}
