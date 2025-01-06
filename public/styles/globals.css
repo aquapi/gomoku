@@ -29,6 +29,12 @@ nav {
       margin-left: 10px;
       padding: 5px;
       max-width: fit-content;
+
+      /* Try to hide the scrollbar */
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        width: 0;
+      }
     }
   }
 }
