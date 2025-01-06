@@ -26,6 +26,8 @@ for (const name in defaultThemes) {
 
 // Build radix themes
 for (const name in radixThemes) {
+  if (name.endsWith('A')) continue;
+
   themeList.push(RADIX + name);
   Bun.write(RADIX_DIST + name + '.css', buildTheme(Object.values(radixThemes[name as keyof typeof radixThemes])));
 }
