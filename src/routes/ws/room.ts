@@ -1,7 +1,7 @@
 import { autoRoute, type ServerWebSocket } from 'ws-routers/bun';
 import { server } from '@server';
 import { createBoard, boards, type Board, startBoard, resetBoard, invalidTurn, invalidMove, detectWin, inGame } from '@/utils/game';
-import { createMove, draw, startAsO, startAsSpectator, startAsX, winMessages } from '@/utils/message';
+import { createMove, draw, startAsO, startAsSpectator, startAsX, syncBoard, winMessages } from '@/utils/message';
 
 type Data = [
   // Topic
@@ -32,7 +32,6 @@ export default autoRoute<Data>({
 
     ws.subscribe(topic);
     ws.data[3] = '$' + topic;
-
     ws.binaryType = 'uint8array';
 
     switch (server.subscriberCount(topic)) {
@@ -57,8 +56,14 @@ export default autoRoute<Data>({
         ws.data[1] = 2;
         ws.sendBinary(startAsSpectator);
 
+        // Sync the board with the current players
+        let board = boards.get(topic)!;
+        if (inGame(board))
+          ws.sendBinary(syncBoard(board));
+
         // Spectator topic
         ws.subscribe(ws.data[3]);
+        ws.unsubscribe(topic);
         return;
     }
   },

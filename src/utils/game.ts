@@ -32,7 +32,6 @@ export const resetBoard = (board: Board) => {
 
 // In game
 export const startBoard = (board: Board) => {
-  // Initialize enough spaces
   board[0] = board[1] = 0n;
   board[2] = 0;
   return board;

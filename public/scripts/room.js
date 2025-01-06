@@ -53,7 +53,14 @@ socket.addEventListener("message", (e) => {
     // [1, pos, turn]
     case 1:
       board[msg[1]].appendChild(pieces[msg[2]].cloneNode());
-      dialog.textContent = (msg[2] === turn ? "Opponent" : "Your") + " turn!";
+      dialog.textContent =
+        (turn === 2
+          ? turn === 0
+            ? "X"
+            : "O"
+          : msg[2] === turn
+            ? "Opponent"
+            : "Your") + " turn!";
       break;
 
     // [2, 0 | 1 | 2]
@@ -61,10 +68,37 @@ socket.addEventListener("message", (e) => {
       dialog.textContent =
         msg[1] === 2
           ? "Game drawn!"
-          : msg[1] === turn
-            ? "You win!"
-            : "You lose!";
+          : turn === 2
+            ? "Game ended!"
+            : msg[1] === turn
+              ? "You win!"
+              : "You lose!";
 
+      break;
+
+    // [3, ...32, ...32]
+    case 3:
+      // Sync the board
+      for (let i = 1, idxI = 0, idxJ = 0, eBit, t; i < 33; i++) {
+        eBit = msg[i];
+
+        for (t = 8; t > 0; t--) {
+          board[idxI].innerHTML = "";
+          if ((eBit & 1) === 1) board[idxI].appendChild(pieces[0].cloneNode());
+
+          eBit >>= 1;
+          idxI++;
+        }
+
+        eBit = msg[i + 32];
+
+        for (t = 8; t > 0; t--) {
+          if ((eBit & 1) === 1) board[idxJ].appendChild(pieces[1].cloneNode());
+
+          eBit >>= 1;
+          idxJ++;
+        }
+      }
       break;
   }
 });
