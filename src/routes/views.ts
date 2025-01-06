@@ -12,7 +12,7 @@ for (const path of new Bun.Glob('**/*.tsx').scanSync(PAGES)) {
   const outPath = DIST + pathName + '.html';
 
   // Call the page builder
-  Bun.write(outPath, (await import(resolve(PAGES + path))).default());
+  Bun.write(outPath, '<!DOCTYPE html>' + (await import(resolve(PAGES + path))).default());
 
   views.build(
     // Build the correct paths
