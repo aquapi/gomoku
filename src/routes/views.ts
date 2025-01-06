@@ -26,4 +26,3 @@ for (const path of new Bun.Glob('**/*.tsx').scanSync(PAGES)) {
 }
 
 export default views;
-console.log(views.routes)
