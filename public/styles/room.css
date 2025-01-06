@@ -1,5 +1,3 @@
-@import "./globals.css";
-
 :root {
   --sq-size: 40px;
   --piece-size: calc(var(--sq-size) * 3 / 5);
