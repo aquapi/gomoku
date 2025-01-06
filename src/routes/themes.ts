@@ -2,6 +2,11 @@ import { router } from '@mapl/app';
 import buildTheme from '@/utils/buildTheme';
 
 import * as radixThemes from '@radix-ui/colors';
+import { DIST as ROOT } from '@/config';
+
+const DIST = ROOT + 'themes/';
+const RADIX = 'radix/';
+const RADIX_DIST = DIST + RADIX;
 
 // List all themes
 const themeList: string[] = [];
@@ -16,16 +21,16 @@ const defaultThemes = {
 }
 for (const name in defaultThemes) {
   themeList.push(name);
-  Bun.write(`./themes/${name}.css`, buildTheme(defaultThemes[name as keyof typeof defaultThemes]));
+  Bun.write(DIST + name + '.css', buildTheme(defaultThemes[name as keyof typeof defaultThemes]));
 }
 
 // Build radix themes
 for (const name in radixThemes) {
-  themeList.push(`radix/${name}`);
-  Bun.write(`./themes/radix/${name}.css`, buildTheme(Object.values(radixThemes[name as keyof typeof radixThemes])));
+  themeList.push(RADIX + name);
+  Bun.write(RADIX_DIST + name + '.css', buildTheme(Object.values(radixThemes[name as keyof typeof radixThemes])));
 }
 
 export default router()
   // Serve static
-  .get('/**', (params) => Bun.file('./themes/' + params[0]))
+  .get('/**', (params) => Bun.file(DIST + params[0]))
   .build('/', () => themeList.join())

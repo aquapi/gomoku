@@ -1,16 +1,18 @@
+import { DIST as ROOT } from '@/config';
 import { router } from '@mapl/app';
 import { resolve } from 'path/posix';
 
-const PAGES_DIR = './views/pages/', DIST_DIR = './views/dist/';
+const DIST = ROOT + 'pages/';
+const PAGES = './views/pages/';
 
 const views = router();
 
-for (const path of new Bun.Glob('**/*.tsx').scanSync(PAGES_DIR)) {
+for (const path of new Bun.Glob('**/*.tsx').scanSync(PAGES)) {
   const pathName = path.substring(0, path.lastIndexOf('.') >>> 0);
-  const outPath = DIST_DIR + pathName + '.html';
+  const outPath = DIST + pathName + '.html';
 
   // Call the page builder
-  Bun.write(outPath, (await import(resolve(PAGES_DIR + path))).default());
+  Bun.write(outPath, (await import(resolve(PAGES + path))).default());
 
   views.build(
     // Build the correct paths
