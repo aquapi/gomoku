@@ -44,10 +44,11 @@ export default autoRoute<Data>({
       // Start sending messages to the players
       case 2: {
         ws.data[1] = 1;
-        ws.data[2] = startBoard(boards.get(topic)!);
+        let board = ws.data[2] = startBoard(boards.get(topic)!);
 
-        ws.publishBinary(topic, startAsX);
-        ws.sendBinary(startAsO);
+        // Swap turns when necessary
+        ws.publishBinary(topic, board[3] === 1 ? startAsO : startAsX);
+        ws.sendBinary(board[3] === 0 ? startAsO : startAsX);
         break;
       }
 
@@ -133,7 +134,8 @@ export default autoRoute<Data>({
           if (invalidMove(board, bpos)) return;
 
           {
-            let move = createMove(msg[1], playerTurn);
+            // Send the correct turn when inverted
+            let move = createMove(msg[1], (playerTurn + board[3]) & 1);
             // Send the move to players
             server.publish(ws.data[0], move);
             // Send the move to spectators

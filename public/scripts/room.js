@@ -60,19 +60,19 @@ socket.addEventListener("message", (e) => {
             : "O"
           : msg[2] === turn
             ? "Opponent"
-            : "Your") + " turn!";
+            : "Your") + " turn";
       break;
 
     // [2, 0 | 1 | 2]
     case 2:
       dialog.textContent =
         msg[1] === 2
-          ? "Game drawn!"
+          ? "Game drawn"
           : turn === 2
-            ? "Game ended!"
+            ? "Game ended"
             : msg[1] === turn
-              ? "You win!"
-              : "You lose!";
+              ? "You win"
+              : "You lose";
 
       break;
 
