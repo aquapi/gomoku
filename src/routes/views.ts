@@ -1,6 +1,6 @@
 import { DIST as ROOT } from '@/config';
 import { router } from '@mapl/app';
-import { resolve } from 'path/posix';
+import { resolve, join } from 'path/posix';
 
 const DIST = ROOT + 'pages/';
 const PAGES = './views/pages/';
@@ -16,8 +16,8 @@ for (const path of new Bun.Glob('**/*.tsx').scanSync(PAGES)) {
 
   views.build(
     // Build the correct paths
-    '/' + (pathName.endsWith('index')
-      ? pathName.substring(0, path.length - 5)
+    join('/', pathName.endsWith('index')
+      ? pathName.substring(0, pathName.length - 5)
       : pathName
     ),
     // Send the file
@@ -26,3 +26,4 @@ for (const path of new Bun.Glob('**/*.tsx').scanSync(PAGES)) {
 }
 
 export default views;
+console.log(views.routes)
