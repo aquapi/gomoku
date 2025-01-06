@@ -1,3 +1,5 @@
+import { themeList } from "@/routes/themes";
+
 export default (props: {
   title: string;
   description: string;
@@ -18,6 +20,16 @@ export default (props: {
       <link rel="stylesheet" href={props.styleHref} />
     </head>
     <body>
+      <nav>
+        <p>
+          themes:
+          <select class="ui-effect" id="select-themes">
+            {themeList.map((theme) => (
+              <option value={theme}>{theme}</option>
+            ))}
+          </select>
+        </p>
+      </nav>
       <div id="app">{props.children}</div>
     </body>
   </html>

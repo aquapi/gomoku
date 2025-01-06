@@ -9,7 +9,7 @@ const RADIX = 'radix/';
 const RADIX_DIST = DIST + RADIX;
 
 // List all themes
-const themeList: string[] = [];
+export const themeList: string[] = [];
 
 // Build default themes
 const defaultThemes = {
@@ -32,5 +32,4 @@ for (const name in radixThemes) {
 
 export default router()
   // Serve static
-  .get('/**', (params) => Bun.file(DIST + params[0]))
-  .build('/', () => themeList.join())
+  .get('/**', (params) => Bun.file(DIST + params[0]));

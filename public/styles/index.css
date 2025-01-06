@@ -4,10 +4,11 @@
 
 form {
   font-size: 15px;
+  display: flex;
+  gap: 5px;
 
   & > * {
     padding: 10px 15px;
     border-radius: var(--box-radius);
-    margin-left: 5px;
   }
 }
