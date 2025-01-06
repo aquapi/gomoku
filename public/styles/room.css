@@ -43,3 +43,7 @@ span {
   border-radius: 9999px;
   background-color: var(--o-color);
 }
+
+#instant-dialog {
+  font-size: 20px;
+}

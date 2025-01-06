@@ -4,9 +4,9 @@ export default () => (
   <Base
     title="Joining room..."
     description="Waiting for a player..."
-    styleHref="/styles/index.css"
+    styleHref="/styles/room.css"
   >
-    <h2 id="instant-dialog">Waiting for a player...</h2>
+    <p id="instant-dialog">Waiting for a player...</p>
     <main class="solid"></main>
     <script type="module" src="/scripts/room.js"></script>
   </Base>
