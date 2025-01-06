@@ -7,6 +7,7 @@
     "ws-routers": "^0.2.3"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.9",
     "@types/bun": "^1.1.14"
   },
   "scripts": {
