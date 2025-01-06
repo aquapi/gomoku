@@ -29,7 +29,12 @@
   background-color: var(--theme-hovered-solid-bg);
 }
 
-body {
+#nav {
+  width: 100vw;
+  height: 64px;
+}
+
+#app {
   background-color: var(--theme-app-bg);
 
   width: 100vw;
