@@ -23,7 +23,7 @@
     "noPropertyAccessFromIndexSignature": false,
     "paths": {
       "@/*": ["./src/*"],
-      "@server": ["./index.ts"]
+      "@": ["./src/index.ts"]
     }
   }
 }

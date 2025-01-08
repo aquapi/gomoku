@@ -1,5 +1,5 @@
 import { autoRoute, type ServerWebSocket } from 'ws-routers/bun';
-import { server } from '@server';
+import { server } from '@';
 import { createBoard, boards, type Board, startBoard, resetBoard, invalidTurn, invalidMove, detectWin, inGame } from '@/utils/game';
 import { createMove, draw, startAsO, startAsSpectator, startAsX, syncBoard, winMessages } from '@/utils/message';
 
@@ -125,6 +125,10 @@ export default autoRoute<Data>({
 
         {
           let board = ws.data[2]!;
+
+          // Modify the turn
+          playerTurn = ((playerTurn + board[3]) & 1) as 0 | 1;
+
           // The game is not started
           // Or player try to move but not their turn
           if (invalidTurn(board, playerTurn)) return;
@@ -135,7 +139,7 @@ export default autoRoute<Data>({
 
           {
             // Send the correct turn when inverted
-            let move = createMove(msg[1], (playerTurn + board[3]) & 1);
+            let move = createMove(msg[1], playerTurn);
             // Send the move to players
             server.publish(ws.data[0], move);
             // Send the move to spectators

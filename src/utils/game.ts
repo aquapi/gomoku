@@ -41,7 +41,7 @@ export const inGame = (board: Board) => board[2] > -1;
 
 // Validate player turn (also check in game status)
 export const invalidTurn = (board: Board, playerTurn: number): boolean =>
-  board[2] < 0 || playerTurn !== ((board[2] + board[3]) & 1);
+  board[2] < 0 || playerTurn !== (board[2] & 1);
 
 // Validate move
 export const invalidMove = (board: Board, pos: bigint) =>
