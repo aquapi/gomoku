@@ -2,7 +2,7 @@
   "type": "module",
   "dependencies": {
     "@kitajs/html": "^4.2.6",
-    "@mapl/app": "^0.5.5",
+    "@mapl/app": "^0.5.8",
     "@radix-ui/colors": "^3.0.0",
     "ws-routers": "^0.2.3"
   },
